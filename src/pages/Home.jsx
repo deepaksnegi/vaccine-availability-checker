@@ -67,7 +67,7 @@ const Home = () => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} sm={4}>
-        {user ? <UserProfile user={user} /> : <VaccinationForm />}
+        {user.name ? <UserProfile user={user} /> : <VaccinationForm />}
       </Grid>
       <Grid item sm={8} className={classes.vaccinationContainer}>
         <Card className={classes.vaccinationCard}>
