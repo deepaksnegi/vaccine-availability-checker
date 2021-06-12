@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const getStates = async () => {
   const response = await axios.get(
-    "https://cdn-api.co-vin.in/api/v2/admin/location/states"
+    `${process.env.REACT_APP_BASE_API_URL}/admin/location/states`
   );
   return response.data.states.map((s) => ({
     id: s.state_id,
@@ -12,7 +12,7 @@ export const getStates = async () => {
 
 export const getDistricts = async (stateId) => {
   const response = await axios.get(
-    `https://cdn-api.co-vin.in/api/v2/admin/location/districts/${stateId}`
+    `${process.env.REACT_APP_BASE_API_URL}/admin/location/districts/${stateId}`
   );
 
   return response.data.districts.map((d) => ({

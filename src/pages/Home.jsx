@@ -6,14 +6,16 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import controlInputs from "../components/inputs";
 import UserProfile from "../components/UserProfile";
 import VaccinationForm from "../components/VaccinationForm";
+import Recovery from "../components/Recovery";
 import vaccine from "../images/Vaccine-bro.svg";
 import wave from "../images/wave.svg";
 import working from "../images/Working.svg";
+import { getCovidDetail } from "../services/covid/covidReportService";
 
 const useStyles = makeStyles((theme) => ({
   vaccinationContainer: {
@@ -47,18 +49,20 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     padding: theme.spacing(1),
   },
-
-  recovery: {
-    display: "flex",
-    height: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-  },
 }));
 
 const Home = () => {
   const classes = useStyles();
   const user = useSelector((state) => state.user.user);
+  const [recoveryRate, setRecoveryRate] = useState();
+
+  useEffect(() => {
+    getCovidDetail().then((d) => {
+      const { confirmed, recovered } = d;
+      const recoveryRate = (recovered / confirmed) * 100;
+      setRecoveryRate(recoveryRate.toFixed(2));
+    });
+  }, []);
 
   return (
     <Grid container spacing={2}>
@@ -101,11 +105,7 @@ const Home = () => {
             </Card>
           </Grid>
           <Grid item sm={4} xs={12}>
-            <Card className={classes.recovery}>
-              <CardContent>
-                <Typography>Recovery rate: 3.2%</Typography>
-              </CardContent>
-            </Card>
+            <Recovery recoveryRate={recoveryRate} />
           </Grid>
         </Grid>
       </Grid>

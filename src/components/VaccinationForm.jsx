@@ -24,6 +24,8 @@ const initialState = {
   age: 0,
   state: "",
   district: "",
+  stateId: 0,
+  districtId: 0,
 };
 
 const VaccinationForm = () => {
@@ -49,7 +51,7 @@ const VaccinationForm = () => {
   }, []);
 
   useEffect(() => {
-    getDistricts(values.state).then((s) => setDistricts(s));
+    values.state && getDistricts(values.state).then((s) => setDistricts(s));
   }, [values.state]);
 
   const onSubmitHandler = (e) => {
@@ -61,6 +63,8 @@ const VaccinationForm = () => {
         age: ageOptions[age],
         state: states.find((s) => s.id === state).title,
         district: districts.find((d) => d.id === district).title,
+        stateId: state,
+        districtId: district,
       };
       dispatch(userAction.createUserRequest(user));
     }

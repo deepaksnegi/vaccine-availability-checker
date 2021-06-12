@@ -1,6 +1,6 @@
 import userActionTypes from "../actions/user/userActionTypes";
 
-const user = JSON.parse(localStorage.getItem("user"));
+const user = JSON.parse(localStorage.getItem("user")) || {};
 
 const initialState = {
   user,

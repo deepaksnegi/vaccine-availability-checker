@@ -12,7 +12,7 @@ import {
 import axios from "axios";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import React, { useEffect, useState } from "react";
-import Chips from "../components/Chips";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,12 +40,15 @@ const Slots = () => {
   const [slots, setSlots] = useState([]);
   const classes = useStyles();
 
+  const { districtId } = useSelector((state) => state.user.user);
+
   useEffect(() => {
-    axios
-      .get(
-        `https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=704&date=10-05-2021`
-      )
-      .then((response) => setSlots(response.data.sessions));
+    districtId &&
+      axios
+        .get(
+          `${process.env.REACT_APP_BASE_API_URL}/appointment/sessions/public/findByDistrict?district_id=${districtId}&date=10-05-2021`
+        )
+        .then((response) => setSlots(response.data.sessions));
   }, []);
   return (
     <Paper elevation={0} className={classes.root}>
