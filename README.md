@@ -1,5 +1,6 @@
 Unfortunately, API used for Covid availability and details aren't available anymore. Vaccine availability checker can't work as expected.
-\*\*Preview: [https://vaccine-availability-che-65632.web.app](Vaccine Availability Checker)
+
+**Preview: [Vaccine Availability Checker](https://vaccine-availability-che-65632.web.app "Vaccine Availability Checker")**
 
 Run project locally:
 
