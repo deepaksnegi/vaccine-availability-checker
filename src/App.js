@@ -4,7 +4,6 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Home from "./pages/Home";
 import background from "./images/back.svg";
-import Slots from "./pages/Slots";
 import theme from "./utility/theme";
 
 const useStyles = makeStyles((theme) => ({
@@ -29,7 +28,6 @@ function App() {
         <Header />
         <div className={classes.layout}>
           <Home />
-          <Slots />
           <Footer />
         </div>
       </div>

@@ -5,6 +5,11 @@ const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
     textAlign: "center",
+    position: "fixed",
+    bottom: 0,
+    left: 0,
+    maxWidth: "100%",
+    minWidth: "100%"
   },
 }));
 const Footer = () => {

@@ -16,6 +16,8 @@ import vaccine from "../images/Vaccine-bro.svg";
 import wave from "../images/wave.svg";
 import working from "../images/Working.svg";
 import { getCovidDetail } from "../services/covid/covidReportService";
+import Slots from "./Slots";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   vaccinationContainer: {
@@ -64,52 +66,70 @@ const Home = () => {
     });
   }, []);
 
+  const [slots, setSlots] = useState([]);
+
+  const { districtId } = useSelector((state) => state.user.user);
+
+  const getVaccineSlot = () => {
+    axios
+      .get(
+        `${process.env.REACT_APP_BASE_API_URL}/appointment/sessions/public/findByDistrict?district_id=${districtId}&date=10-05-2021`
+      )
+      .then((response) => setSlots(response.data.sessions))
+      .catch((error) => console.log(error));
+  };
+
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12} sm={4}>
-        {user.name ? <UserProfile user={user} /> : <VaccinationForm />}
-      </Grid>
-      <Grid item sm={8} className={classes.vaccinationContainer}>
-        <Card className={classes.vaccinationCard}>
-          <CardContent className={classes.vaccinationContent}>
-            <Typography>
-              Everyone 18 and older is eligible to get the vaccine against
-              Covid-19. Availability may vary by state.
-            </Typography>
-            <CardActions>
-              <controlInputs.Button
-                variant="contained"
-                color="primary"
-                text="Find Your Slot"
-              />
-            </CardActions>
-          </CardContent>
-          <img
-            src={vaccine}
-            alt="vaccine"
-            className={classes.vaccinationImage}
-          />
-        </Card>
-        <Grid container spacing={2} className={classes.notifications}>
-          <Grid item sm={8}>
-            <Card className={classes.working}>
-              <img
-                src={working}
-                alt="vaccine"
-                className={classes.vaccinationImage}
-              />
-              <Typography variant="body1">
-                You take care of your mental health, we are working on your
-                behalf here.
+    <>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={4}>
+          {user.name ? <UserProfile user={user} /> : <VaccinationForm />}
+        </Grid>
+        <Grid item sm={8} className={classes.vaccinationContainer}>
+          <Card className={classes.vaccinationCard}>
+            <CardContent className={classes.vaccinationContent}>
+              <Typography>
+                Everyone 18 and older is eligible to get the vaccine against
+                Covid-19. Availability may vary by state.
               </Typography>
-            </Card>
-          </Grid>
-          <Grid item sm={4} xs={12}>
-            <Recovery recoveryRate={recoveryRate} />
+              <CardActions>
+                <controlInputs.Button
+                  variant="contained"
+                  color="primary"
+                  text="Find Your Slot"
+                  disabled={!districtId}
+                  onClickHandler={getVaccineSlot}
+                />
+              </CardActions>
+            </CardContent>
+            <img
+              src={vaccine}
+              alt="vaccine"
+              className={classes.vaccinationImage}
+            />
+          </Card>
+          <Grid container spacing={2} className={classes.notifications}>
+            <Grid item sm={8}>
+              <Card className={classes.working}>
+                <img
+                  src={working}
+                  alt="vaccine"
+                  className={classes.vaccinationImage}
+                />
+                <Typography variant="body1">
+                  You take care of your mental health, we are working on your
+                  behalf here.
+                </Typography>
+              </Card>
+            </Grid>
+            <Grid item sm={4} xs={12}>
+              <Recovery recoveryRate={recoveryRate} />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
-    </Grid>
+      {slots.length > 0 ? <Slots slots={slots} /> : null}
+    </>
   );
 };
 

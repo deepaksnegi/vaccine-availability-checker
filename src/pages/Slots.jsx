@@ -9,14 +9,12 @@ import {
   Paper,
   Typography,
 } from "@material-ui/core";
-import axios from "axios";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: "16px 0",
+    margin: "5% 0",
     textAlign: "center",
     padding: theme.spacing(2),
     backgroundColor: "#F6F7F8",
@@ -30,26 +28,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const filters = [
-  { key: 0, label: "Age 18+" },
-  { key: 1, label: "Age 45+" },
-  { key: 2, label: "Free" },
-];
-
-const Slots = () => {
-  const [slots, setSlots] = useState([]);
+const Slots = ({ slots }) => {
   const classes = useStyles();
 
-  const { districtId } = useSelector((state) => state.user.user);
-
-  useEffect(() => {
-    districtId &&
-      axios
-        .get(
-          `${process.env.REACT_APP_BASE_API_URL}/appointment/sessions/public/findByDistrict?district_id=${districtId}&date=10-05-2021`
-        )
-        .then((response) => setSlots(response.data.sessions));
-  }, []);
   return (
     <Paper elevation={0} className={classes.root}>
       <Grid container spacing={2} justify="center">
